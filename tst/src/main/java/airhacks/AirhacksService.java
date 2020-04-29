@@ -6,12 +6,16 @@ import java.time.temporal.ChronoUnit;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.sound.sampled.SourceDataLine;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.faulttolerance.Bulkhead;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
+import org.eclipse.microprofile.metrics.MetricRegistry;
+import org.eclipse.microprofile.metrics.MetricRegistry.Type;
+import org.eclipse.microprofile.metrics.annotation.RegistryType;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -24,6 +28,9 @@ public class AirhacksService {
     @RestClient
     Airhacks page;
 
+    @Inject
+    @RegistryType(type = Type.APPLICATION)
+    MetricRegistry registry;
 
     @Timed
     //@Bulkhead(value = 2, waitingTaskQueue = 10)
@@ -33,7 +40,10 @@ public class AirhacksService {
     @Fallback(fallbackMethod = "doesNotExist")
     public String getContent() {
         System.out.println("retrying...");
-        return this.page.doesNotMatterAtAll();
+        Response response = this.page.doesNotMatterAtAll();
+        int status = response.getStatus();
+        registry.counter("airhacks_calls_"+status).inc();
+        return response.readEntity(String.class);
     }
 
     public String doesNotExist() {

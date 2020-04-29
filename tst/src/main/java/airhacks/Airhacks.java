@@ -2,6 +2,7 @@ package airhacks;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -10,6 +11,6 @@ public interface Airhacks {
 
     @GET
     @Produces("text/plain")
-    public String doesNotMatterAtAll();
+    public Response doesNotMatterAtAll();
 
 }
