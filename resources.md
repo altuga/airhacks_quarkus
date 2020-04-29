@@ -49,3 +49,7 @@ https://github.com/eclipse/microprofile-jwt-auth/blob/master/spec/src/main/ascii
 https://quarkus.io/guides/datasource
 https://in.relation.to/2020/02/14/hibernate-orm-5-4-12/
 https://pulsar.apache.org/
+http://www.adam-bien.com/roller/abien/entry/simplest_possible_quarkus_extension
+https://github.com/AdamBien/airhacks-quarkus-extension
+https://github.com/oracle/graal/blob/master/substratevm/REFLECTION.md
+https://quarkus.io/guides/writing-native-applications-tips#registering-for-reflection
