@@ -35,3 +35,7 @@ mvn clean install -Pnative
 
 https://www.graalvm.org/ (search for R, python, ...)
 https://www.okd.io/minishift/
+https://goharbor.io/
+https://www.openshift.com/products/quay
+https://github.com/aws-quickstart/quickstart-redhat-openshift
+https://quarkus.io/guides/kubernetes-client
