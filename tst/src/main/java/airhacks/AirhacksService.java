@@ -1,5 +1,6 @@
 package airhacks;
 
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
 import javax.enterprise.context.RequestScoped;
@@ -13,6 +14,8 @@ import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import io.quarkus.scheduler.Scheduled;
 
 @RequestScoped
 public class AirhacksService {
@@ -36,6 +39,11 @@ public class AirhacksService {
     public String doesNotExist() {
         System.out.println("AirhacksService.doesNotExist()");
         return "too slow";
+    }
+
+    @Scheduled(every = "1s")
+    public void check() {
+        System.out.println(".... " + LocalTime.now());
     }
 
     

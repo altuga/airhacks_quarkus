@@ -40,3 +40,6 @@ https://www.openshift.com/products/quay
 https://github.com/aws-quickstart/quickstart-redhat-openshift
 https://quarkus.io/guides/kubernetes-client
 https://quarkus.io/guides/all-config
+https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
+http://www.adam-bien.com/roller/abien/entry/how_to_kill_a_soa
+https://quarkus.io/guides/centralized-log-management
