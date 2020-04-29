@@ -16,3 +16,8 @@ https://github.com/AdamBien/quarkus_vs_war
 
 mvn io.quarkus:quarkus-maven-plugin:1.4.1.Final:create 
 https://github.com/AdamBien/quarkee/blob/master/pom.xml
+https://www.graalvm.org/
+http://www.adam-bien.com/roller/abien/entry/why_not_one_application_per
+https://helidon.io/#/
+https://picocli.info/
+https://quarkus.io/guides/cdi-reference
