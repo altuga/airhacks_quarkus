@@ -21,3 +21,14 @@ http://www.adam-bien.com/roller/abien/entry/why_not_one_application_per
 https://helidon.io/#/
 https://picocli.info/
 https://quarkus.io/guides/cdi-reference
+http://localhost:8080/swagger-ui/
+mvn quarkus:list-extensions -Dquarkus.extension.format=full#
+mvn quarkus:add-extension -Dextensions="metrics"
+http://localhost:8080/metrics/application
+https://wad.sh/
+https://www.eclipse.org/openj9/
+
+## transactions extension for quarkus
+ quarkus-narayana-jta
+
+mvn clean install -Pnative
