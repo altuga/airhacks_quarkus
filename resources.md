@@ -32,3 +32,6 @@ https://www.eclipse.org/openj9/
  quarkus-narayana-jta
 
 mvn clean install -Pnative
+
+https://www.graalvm.org/ (search for R, python, ...)
+https://www.okd.io/minishift/

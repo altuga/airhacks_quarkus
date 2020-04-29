@@ -1,0 +1,156 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: quarkus-openshift
+  name: quarkus-openshift
+spec:
+  host: quarkus-openshift-airhacks.192.168.64.8.nip.io
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: quarkus-openshift
+    weight: 100
+  tls:
+    termination: edge
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: quarkus-openshift
+  labels:
+    app: quarkus-openshift
+spec:
+  selector:
+    app: quarkus-openshift
+    deploymentconfig: quarkus-openshift
+  ports:
+    - port: 8080
+      name: http
+  type: ClusterIP
+
+---
+
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: quarkus-openshift
+  labels:
+    app: quarkus-openshift
+spec:
+  replicas: 1
+  selector:
+    app: quarkus-openshift
+    deploymentconfig: quarkus-openshift
+  strategy:
+    type: Rolling
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+  template:
+    metadata:
+      labels:
+        app: quarkus-openshift
+        deploymentconfig: quarkus-openshift
+    spec:
+      containers:
+        - name: quarkus-openshift
+          image: airhacks/quarkus-openshift:latest
+          imagePullPolicy: Always
+          restartPolicy: Always
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health/live
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10        
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health/ready
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          ports:
+          - containerPort: 8080
+          env:
+          - name: message
+            valueFrom:
+              configMapKeyRef:
+                name: quarkus-openshift
+                key: airmessage
+          resources:
+            requests:
+              cpu: "2"
+              memory: 128Mi      
+  triggers:
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true 
+      from:
+        kind: ImageStreamTag
+        name: quarkus-openshift:latest
+      containerNames: 
+        - quarkus-openshift
+  - type: ConfigChange
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: quarkus-openshift
+  labels:
+    app: quarkus-openshift
+    ca.service: quarkus-openshift
+data:
+  airmessage: hello, openshift
+---
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    app: quarkus-openshift
+  name: quarkus-openshift
+---
+kind: BuildConfig
+apiVersion: v1
+metadata:
+  labels:
+    app: quarkus-openshift
+  name: quarkus-openshift
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: quarkus-openshift:latest
+  runPolicy: Serial
+  resources:
+    requests:
+      cpu: "2"
+      memory: 512Mi      
+  source:
+    dockerfile: |-
+      FROM airhacks/quarkus
+      COPY target/supersonic-runner.jar ${DEPLOY_DIR}
+    binary: {}
+    type: Binary
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'quarkus:latest'
+        namespace: openshift
+    type: Docker
