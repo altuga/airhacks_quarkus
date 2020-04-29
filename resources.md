@@ -43,3 +43,6 @@ https://quarkus.io/guides/all-config
 https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
 http://www.adam-bien.com/roller/abien/entry/how_to_kill_a_soa
 https://quarkus.io/guides/centralized-log-management
+http://jwtenizr.sh/
+https://github.com/keycloak/keycloak-gatekeeper
+https://github.com/eclipse/microprofile-jwt-auth/blob/master/spec/src/main/asciidoc/configuration.asciidoc
