@@ -39,3 +39,4 @@ https://goharbor.io/
 https://www.openshift.com/products/quay
 https://github.com/aws-quickstart/quickstart-redhat-openshift
 https://quarkus.io/guides/kubernetes-client
+https://quarkus.io/guides/all-config

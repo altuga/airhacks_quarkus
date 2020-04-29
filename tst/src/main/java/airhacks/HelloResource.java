@@ -12,12 +12,11 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class HelloResource {
 
     @Inject
-    @RestClient
-    Airhacks page;
-
+    AirhacksService service;
+    
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
-        return this.page.doesNotMatterAtAll();
+        return this.service.getContent();
     }
 }
